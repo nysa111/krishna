@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishna’s Fun & Wisdom</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sacred+Valley:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Sacred Valley', serif;
+            background-color: #e0f7fa;
+            color: #003366;
+            background-image: url('peacock-feathers-bg.jpg');
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #00695c;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .krishna-image {
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+            border-radius: 50%;
+            border: 5px solid #00695c;
+        }
+
+        .query-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .query-box input {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #0288d1;
+            color: #004d40;
+        }
+
+        .query-box button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #004d40;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .query-box button:hover {
+            background-color: #00796b;
+        }
+
+        .answer-box {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .fun-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .fun-section button {
+            background-color: #0288d1;
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            border-radius: 50px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .fun-section button:hover {
+            background-color: #01579b;
+        }
+
+        .quote-of-the-day {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .quote-of-the-day blockquote {
+            font-size: 1.2em;
+            border-left: 4px solid #0288d1;
+            padding-left: 20px;
+            margin: 0 auto;
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #004d40;
+            color: white;
+        }
+
+        .play-music-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .play-music-container button {
+            background-color: #004d40;
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-music-container button:hover {
+            background-color: #00796b;
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background music -->
+    <audio autoplay loop id="autoMusic">
+        <source src="C:/Users/NYSA/Downloads/Krishna Theme Flute I OMG Oh My God.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Play Music Button -->
+    <div class="play-music-container">
+        <button onclick="playAudio()">Play Music</button>
+    </div>
+    <audio id="krishnaMusic" loop>
+        <source src="C:/Users/NYSA/Downloads/Krishna Theme Flute I OMG Oh My God.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="container">
+        <h1>Welcome to Krishna’s Fun & Wisdom</h1>
+        <img src="C:/Users/NYSA/Downloads/krishna-image.jpg.png" alt="Lord Krishna" class="krishna-image">
+
+        <!-- Query system -->
+        <div class="query-box">
+            <h2>Ask Lord Krishna Your Query</h2>
+            <input type="text" id="userQuery" placeholder="Enter your problem or question">
+            <button onclick="getAnswer()">Ask Krishna</button>
+        </div>
+
+        <!-- Display Answer -->
+        <div class="answer-box" id="answerBox">
+            <!-- Answer will be displayed here -->
+        </div>
+
+        <!-- Fun interactive section -->
+        <div class="fun-section">
+            <h2>Fun Krishna-Themed Activities</h2>
+            <button onclick="playButterGame()">Play Butter Pot Game</button>
+            <button onclick="krishnaDance()">See Krishna Dance</button>
+            <button onclick="fluteMagic()">Feel the Flute Magic</button>
+        </div>
+        
+        <!-- Gita Quote of the Day -->
+        <div class="quote-of-the-day">
+            <h2>Gita Quote of the Day</h2>
+            <blockquote id="dailyQuote">
+                <!-- Quote will be inserted here by JavaScript -->
+            </blockquote>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Krishna's Fun & Wisdom | Made with Love and Devotion
+    </footer>
+
+    <script>
+        // Predefined answers from Hindu scriptures
+        const answers = [
+            { key: 'duty', text: 'You have the right to perform your duties, but never to the fruits of your actions. (Bhagavad Gita 2.47)' },
+            { key: 'fear', text: 'There is nothing lost or wasted in this life. (Bhagavad Gita 2.40)' },
+            { key: 'love', text: 'You may act according to your own desires, but do not act with greed or lust. (Bhagavad Gita 2.70)' },
+            { key: 'life', text: 'One should not be disturbed by the ups and downs of life. (Bhagavad Gita 2.14)' },
+            { key: 'knowledge', text: 'A person is said to be established in self-realization and is called a sage when he or she is fully satisfied in the self. (Bhagavad Gita 6.20)' },
+            { key: 'wisdom', text: 'The one who is unaffected by pleasure and pain is a true yogi. (Bhagavad Gita 6.22)' },
+            { key: 'meditation', text: 'Through meditation, the mind is subdued and controlled. (Bhagavad Gita 6.19)' },
+            { key: 'karma', text: 'Perform your obligatory duty, because action is indeed better than inaction. (Bhagavad Gita 3.8)' },
+            { key: 'success', text: 'Success is not final, failure is not fatal: It is the courage to continue that counts.' },
+            { key: 'peace', text: 'Peace comes from within. Do not seek it without.' },
+            { key: 'happiness', text: 'Happiness is not something ready-made. It comes from your own actions.' },
+            { key: 'devotion', text: 'Devotion is the best form of worship.' },
+            { key: 'anger', text: 'Anger is a wind which blows out the lamp of the mind.' },
+            { key: 'strength', text: 'Strength does not come from physical capacity. It comes from an indomitable will.' },
+            { key: 'compassion', text: 'Compassion is the basis of morality.' },
+            { key: 'truth', text: 'The truth will set you free.' },
+            { key: 'courage', text: 'Courage is grace under pressure.' },
+            { key: 'patience', text: 'Patience is not simply the ability to wait – it’s how we behave while we’re waiting.' },
+            { key: 'gratitude', text: 'Gratitude is not only the greatest of virtues but the parent of all the others.' },
+            { key: 'honesty', text: 'Honesty is the first chapter in the book of wisdom.' },
+            { key: 'humility', text: 'Humility is not thinking less of yourself, it’s thinking of yourself less.' },
+            { key: 'friendship', text: 'Friendship is born at that moment when one person says to another, “What! You too? I thought I was the only one.”' },
+            { key: 'love', text: 'Love is not about how much you say “I love you,” but how much you prove that it’s true.' },
+            { key: 'service', text: 'The best way to find yourself is to lose yourself in the service of others.' },
+            { key: 'peace', text: 'Peace is not the absence of conflict, but the ability to cope with it.' },
+            { key: 'joy', text: 'Joy is not in things; it is in us.' },
+            { key: 'wisdom', text: 'The only true wisdom is in knowing you know nothing.' },
+            { key: 'faith', text: 'Faith is taking the first step even when you don’t see the whole staircase.' },
+            { key: 'hope', text: 'Hope is being able to see that there is light despite all of the darkness.' },
+            { key: 'kindness', text: 'Kindness is a language which the deaf can hear and the blind can see.' },
+            { key: 'forgiveness', text: 'Forgiveness is not an occasional act, it is a constant attitude.' },
+            { key: 'generosity', text: 'Generosity is giving more than you can, and pride is taking less than you need.' },
+            { key: 'contentment', text: 'Contentment is natural wealth, luxury is artificial poverty.' },
+            { key: 'simplicity', text: 'Simplicity is the ultimate sophistication.' },
+            { key: 'harmony', text: 'Harmony is the beauty of the universe, the poetry of the soul.' },
+            { key: 'self-control', text: 'Self-control is strength. Right thought is mastery. Calmness is power.' },
+            { key: 'discipline', text: 'Discipline is the bridge between goals and accomplishment.' },
+            { key: 'freedom', text: 'Freedom is the oxygen of the soul.' },
+            { key: 'responsibility', text: 'The price of greatness is responsibility.' },
+            { key: 'creativity', text: 'Creativity is intelligence having fun.' },
+            { key: 'dreams', text: 'The future belongs to those who believe in the beauty of their dreams.' },
+            { key: 'charity', text: 'Charity is the pure love of Christ.' },
+            { key: 'vision', text: 'Vision is the art of seeing what is invisible to others.' },
+            { key: 'truthfulness', text: 'Truthfulness is the foundation of all virtues.' },
+            { key: 'grace', text: 'Grace is the beauty of form under the influence of freedom.' },
+            { key: 'dedication', text: 'Dedication is the key to success.' },
+            { key: 'balance', text: 'Balance is not something you find, it’s something you create.' },
+            { key: 'leadership', text: 'The function of leadership is to produce more leaders, not more followers.' },
+            { key: 'empathy', text: 'Empathy is about finding echoes of another person in yourself.' },
+            { key: 'compassion', text: 'Compassion is the wish to see others free from suffering.' },
+            { key: 'acceptance', text: 'Acceptance is the first step towards healing.' },
+            { key: 'trust', text: 'Trust is the foundation of any relationship.' },
+            { key: 'joy', text: 'Joy is the simplest form of gratitude.' },
+            { key: 'understanding', text: 'Understanding is the first step to acceptance, and only with acceptance can there be recovery.' },
+            { key: 'faith', text: 'Faith is not believing that God can, it is knowing that God will.' },
+            { key: 'love', text: 'Love is the greatest power in the universe.' },
+            { key: 'hope', text: 'Hope is the thing with feathers that perches in the soul.' },
+            { key: 'strength', text: 'Strength doesn’t come from what you can do. It comes from overcoming the things you once thought you couldn’t.' },
+            { key: 'patience', text: 'Patience is the companion of wisdom.' },
+            { key: 'wisdom', text: 'Wisdom is the reward you get for a lifetime of listening when you’d have preferred to talk.' },
+            { key: 'compassion', text: 'Compassion is the ultimate expression of your highest self.' },
+            { key: 'grace', text: 'Grace is the ability to recognize the moment of opportunity.' },
+            { key: 'forgiveness', text: 'Forgiveness is the key to action and freedom.' },
+            { key: 'gratitude', text: 'Gratitude turns what we have into enough.' },
+            { key: 'courage', text: 'Courage is not the absence of fear, but the triumph over it.' },
+            { key: 'humility', text: 'Humility is not thinking less of yourself, but thinking of yourself less.' },
+            { key: 'honesty', text: 'Honesty is the first chapter in the book of wisdom.' },
+            { key: 'faith', text: 'Faith is not about everything turning out okay. Faith is about being okay no matter how things turn out.' }
+        ];
+
+        // Function to get answer based on user query
+        function getAnswer() {
+            const userQuery = document.getElementById('userQuery').value.toLowerCase();
+            const answerBox = document.getElementById('answerBox');
+
+            let response = "Enter one keyword only. What's your issue beloved?Try adding a more common keyword easier to communicate";
+            for (let i = 0; i < answers.length; i++) {
+                if (userQuery.includes(answers[i].key)) {
+                    response = answers[i].text;
+                    break;
+                }
+            }
+            answerBox.innerHTML = response;
+        }
+
+        // Function to get Gita quote of the day
+        function getGitaQuote() {
+            const quotes = [
+                "You have the right to perform your duties, but never to the fruits of your actions. (Bhagavad Gita 2.47)",
+                "There is nothing lost or wasted in this life. (Bhagavad Gita 2.40)",
+                "You may act according to your own desires, but do not act with greed or lust. (Bhagavad Gita 2.70)",
+                "One should not be disturbed by the ups and downs of life. (Bhagavad Gita 2.14)",
+                "A person is said to be established in self-realization and is called a sage when he or she is fully satisfied in the self. (Bhagavad Gita 6.20)",
+                "The one who is unaffected by pleasure and pain is a true yogi. (Bhagavad Gita 6.22)",
+                "Through meditation, the mind is subdued and controlled. (Bhagavad Gita 6.19)",
+                "Perform your obligatory duty, because action is indeed better than inaction. (Bhagavad Gita 3.8)",
+                "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+                "Peace comes from within. Do not seek it without.",
+                "Happiness is not something ready-made. It comes from your own actions.",
+                "Devotion is the best form of worship.",
+                "Anger is a wind which blows out the lamp of the mind.",
+                "Strength does not come from physical capacity. It comes from an indomitable will.",
+                "Compassion is the basis of morality.",
+                "The truth will set you free.",
+                "Courage is grace under pressure.",
+                "Patience is not simply the ability to wait – it’s how we behave while we’re waiting.",
+                "Gratitude is not only the greatest of virtues but the parent of all the others.",
+                "Honesty is the first chapter in the book of wisdom.",
+                "Humility is not thinking less of yourself, it’s thinking of yourself less.",
+                "Friendship is born at that moment when one person says to another, “What! You too? I thought I was the only one.”",
+                "Love is not about how much you say “I love you,” but how much you prove that it’s true.",
+                "The best way to find yourself is to lose yourself in the service of others.",
+                "Peace is not the absence of conflict, but the ability to cope with it.",
+                "Joy is not in things; it is in us.",
+                "The only true wisdom is in knowing you know nothing.",
+                "Faith is taking the first step even when you don’t see the whole staircase.",
+                "Hope is being able to see that there is light despite all of the darkness.",
+                "Kindness is a language which the deaf can hear and the blind can see.",
+                "Forgiveness is not an occasional act, it is a constant attitude.",
+                "Generosity is giving more than you can, and pride is taking less than you need.",
+                "Contentment is natural wealth, luxury is artificial poverty.",
+                "Simplicity is the ultimate sophistication.",
+                "Harmony is the beauty of the universe, the poetry of the soul.",
+                "Self-control is strength. Right thought is mastery. Calmness is power.",
+                "Discipline is the bridge between goals and accomplishment.",
+                "Freedom is the oxygen of the soul.",
+                "The price of greatness is responsibility.",
+                "Creativity is intelligence having fun.",
+                "The future belongs to those who believe in the beauty of their dreams.",
+                "Charity is the pure love of Christ.",
+                "Vision is the art of seeing what is invisible to others.",
+                "Truthfulness is the foundation of all virtues.",
+                "Grace is the beauty of form under the influence of freedom.",
+                "Dedication is the key to success.",
+                "Balance is not something you find, it’s something you create.",
+                "The function of leadership is to produce more leaders, not more followers.",
+                "Empathy is about finding echoes of another person in yourself.",
+                "Compassion is the wish to see others free from suffering.",
+                "Acceptance is the first step towards healing.",
+                "Trust is the foundation of any relationship.",
+                "Joy is the simplest form of gratitude.",
+                "Understanding is the first step to acceptance, and only with acceptance can there be recovery.",
+                "Faith is not about everything turning out okay. Faith is about being okay no matter how things turn out.",
+                "Love is the greatest power in the universe.",
+                "Hope is the thing with feathers that perches in the soul.",
+                "Strength doesn’t come from what you can do. It comes from overcoming the things you once thought you couldn’t.",
+                "Patience is the companion of wisdom.",
+                "Wisdom is the reward you get for a lifetime of listening when you’d have preferred to talk.",
+                "Compassion is the ultimate expression of your highest self.",
+                "Grace is the ability to recognize the moment of opportunity.",
+                "Forgiveness is the key to action and freedom.",
+                "Gratitude turns what we have into enough.",
+                "Courage is not the absence of fear, but the triumph over it.",
+                "Humility is not thinking less of yourself, but thinking of yourself less.",
+                "Honesty is the first chapter in the book of wisdom.",
+                "Faith is not about everything turning out okay. Faith is about being okay no matter how things turn out."
+            ];
+
+            // Randomly select a quote
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const dailyQuote = quotes[randomIndex];
+            document.getElementById('dailyQuote').innerText = dailyQuote;
+        }
+
+        // Play audio
+        function playAudio() {
+            const audio = document.getElementById('krishnaMusic');
+            audio.play();
+        }
+
+        // Example interactive features
+        function playButterGame() {
+            alert("Working on this feature. If you clicked on this website,this was a way for me to reach you. You are special.");
+        }
+
+        function krishnaDance() {
+            alert("Working on this feature. If you clicked on this website,this was a way for me to reach you. You are special.");
+        }
+
+        function fluteMagic() {
+            alert("Working on this feature. If you clicked on this website,this was a way for me to reach you. You are special.");
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            getGitaQuote();
+        });
+    </script>
+
+</body>
+</html>
+
